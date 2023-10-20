@@ -1,6 +1,19 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit"
 
-const initialState = {
+interface ITarea {
+    titulo: string;
+    completada: boolean;
+}
+
+interface IListaTareas {
+    [id: string]: ITarea;
+}
+
+interface IEstadoTareas {
+    lista: IListaTareas;
+}
+
+const initialState: IEstadoTareas = {
     lista: {
         1: {
             titulo: "Aprender componentes de React",
@@ -21,6 +34,25 @@ const slice = createSlice({
     name: "tareas",
     initialState,
     reducers: {
-        // Aquí van las acciones
+        // Sintatic sugar JS
+        eliminada(state, action) {
+            delete state.lista[action.payload];
+        },
+        // Complete syntax
+        /*
+        eliminada(state, action) {
+            const {[action.payload]: _, ...lista} = state.lista;
+            return {...state, lista};
+        }
+        */
+       alternada(state, action) {
+        state.lista[action.payload].completada = !state.lista[action.payload].completada;
+       },
+       modificada(state, action) {
+        state.lista[action.payload.id].titulo = action.payload.titulo;
+       },
+       todasCompletadas(state) {
+        Object.values(state.lista).forEach(tarea => tarea.completada = true);
+       }
     }
 });
