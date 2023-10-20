@@ -45,14 +45,32 @@ const slice = createSlice({
             return {...state, lista};
         }
         */
-       alternada(state, action) {
-        state.lista[action.payload].completada = !state.lista[action.payload].completada;
-       },
-       modificada(state, action) {
-        state.lista[action.payload.id].titulo = action.payload.titulo;
-       },
-       todasCompletadas(state) {
-        Object.values(state.lista).forEach(tarea => tarea.completada = true);
-       }
+        alternada(state, action) {
+            state.lista[action.payload].completada = !state.lista[action.payload].completada;
+        },
+        modificada(state, action) {
+            state.lista[action.payload.id].titulo = action.payload.titulo;
+        },
+        todasCompletadas(state) {
+            Object.values(state.lista).forEach(tarea => tarea.completada = true);
+        },
+        creada: {
+            prepare(titulo: string) {
+                return {
+                    payload: { id: nanoid(), titulo },
+                    meta: undefined,
+                    error: undefined,
+                }
+            },
+            reducer(state, action) {
+                state.lista[action.payload.id] = {
+                    titulo: action.payload.titulo,
+                    completada: false
+                }
+            }
+        }
     }
 });
+
+export const { eliminada, alternada, modificada, todasCompletadas, creada } = slice.actions;
+export default slice.reducer;
