@@ -4,7 +4,12 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState<string | undefined>();
+  const [dni, setDni] = useState<string | undefined>();
+
+  const handleSave = () => {
+    return;
+  };
 
   return (
     <>
@@ -16,18 +21,34 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>React Redux</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <form>
+          <div>
+            <p>Name</p>
+            <input
+              defaultValue={'Default name value'}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <p>DNI</p>
+            <input
+              defaultValue={'Default NIE value'}
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+            />
+          </div>
+
+          <button
+            style={{margin: 15}}
+            onClick={handleSave}
+          >
+            Save
+          </button>
+        </form>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
